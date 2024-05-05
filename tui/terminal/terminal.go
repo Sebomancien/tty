@@ -20,7 +20,7 @@ const (
 var (
 	uplink   = lipgloss.NewStyle().Foreground(lipgloss.Color("#00d787")).SetString("↑")
 	downlink = lipgloss.NewStyle().Foreground(lipgloss.Color("#0087d7")).SetString("↓")
-	title    = lipgloss.NewStyle().Foreground(lipgloss.Color("#FAFAFA")).Background(lipgloss.Color("#7D56F4")).Bold(true).PaddingLeft(4).SetString("One Terminal To Rule Them All")
+	title    = lipgloss.NewStyle().Foreground(lipgloss.Color("#FAFAFA")).Background(lipgloss.Color("#7D56F4")).Bold(true).PaddingLeft(1)
 )
 
 type Model struct {
@@ -146,7 +146,7 @@ func (m Model) View() string {
 	m.logger.GotoBottom()
 	line := strings.Repeat("─", m.logger.Width)
 
-	output := title.String() + "\n"
+	output := title.SetString("TTY").String() + "\n"
 	output += m.logger.View() + "\n"
 	output += line + "\n"
 	output += m.input.View() + "\n"

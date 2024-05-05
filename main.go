@@ -8,6 +8,8 @@ import (
 )
 
 func main() {
+	//cmd.Execute()
+	//return
 	terminal := terminal.New()
 
 	err := tui.Run(terminal)

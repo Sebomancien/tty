@@ -2,6 +2,10 @@ package connect
 
 import (
 	"fmt"
+	"os"
+	"tty/terminal"
+	"tty/terminal/serial"
+	"tty/tui"
 
 	"github.com/spf13/cobra"
 )
@@ -49,5 +53,29 @@ func connect(cmd *cobra.Command, args []string) {
 	fmt.Println("Baudrate ", baudrate)
 	fmt.Println("Parity   ", parity)
 
-	// TODO: Connect to serial port here
+	port := serial.New(name)
+
+	terminal := terminal.New(name, port)
+
+	err = tui.Run(terminal)
+	if err != nil {
+		fmt.Println("Error running program:", err)
+		os.Exit(1)
+	}
+}
+
+func getSerialParam(cmd *cobra.Command) {
+	// Default parameters
+
+	// Config file parameters
+
+	// Console parameters
+}
+
+func newSerialParam() {
+
+}
+
+func getConfigSerialParam() {
+
 }

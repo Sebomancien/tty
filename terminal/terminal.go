@@ -1,7 +1,6 @@
 package terminal
 
 import (
-	"fmt"
 	"time"
 )
 
@@ -18,22 +17,20 @@ type Message struct {
 	Timestamp time.Time
 }
 
+type Port interface{}
+
 type Terminal struct {
+	Name     string
+	Port     Port
 	Messages []Message
 }
 
-func New() *Terminal {
-	terminal := Terminal{
+func New(name string, port Port) *Terminal {
+	return &Terminal{
+		Name:     name,
+		Port:     port,
 		Messages: []Message{},
 	}
-
-	// Test data
-	for i := range 2 {
-		terminal.AddUplinkMessage(fmt.Sprintf("Uplink message %d", i))
-		terminal.AddDownlinkMessage(fmt.Sprintf("Downlink message %d", i))
-	}
-
-	return &terminal
 }
 
 func (t *Terminal) Clear() {

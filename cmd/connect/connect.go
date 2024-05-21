@@ -5,7 +5,7 @@ import (
 	"os"
 	"tty/terminal"
 	"tty/terminal/serial"
-	"tty/tui"
+	tui "tty/tui/terminal"
 
 	"github.com/spf13/cobra"
 )

@@ -20,7 +20,6 @@ const (
 var (
 	uplink   = lipgloss.NewStyle().Foreground(lipgloss.Color("#00d787")).SetString("↑")
 	downlink = lipgloss.NewStyle().Foreground(lipgloss.Color("#0087d7")).SetString("↓")
-	title    = lipgloss.NewStyle().Foreground(lipgloss.Color("#FAFAFA")).Background(lipgloss.Color("#7D56F4")).Bold(true).PaddingLeft(1)
 )
 
 type Model struct {
@@ -34,7 +33,13 @@ type Model struct {
 	index    int
 }
 
-func New(terminal *terminal.Terminal) Model {
+func Run(terminal *terminal.Terminal) error {
+	model := new(terminal)
+	_, err := tea.NewProgram(model).Run()
+	return err
+}
+
+func new(terminal *terminal.Terminal) Model {
 	return Model{
 		ready:    false,
 		terminal: terminal,
@@ -56,8 +61,6 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
 	case tea.WindowSizeMsg:
 		if !m.ready {
-			title = title.Width(msg.Width)
-
 			m.input = textinput.New()
 			m.input.Placeholder = "Enter what you want to send here"
 			m.input.Focus()
@@ -146,8 +149,7 @@ func (m Model) View() string {
 	m.logger.GotoBottom()
 	line := strings.Repeat("─", m.logger.Width)
 
-	output := title.SetString("TTY").String() + "\n"
-	output += m.logger.View() + "\n"
+	output := m.logger.View() + "\n"
 	output += line + "\n"
 	output += m.input.View() + "\n"
 	output += m.help.View(m.keys)

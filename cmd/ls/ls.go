@@ -1,6 +1,14 @@
 package ls
 
-import "github.com/spf13/cobra"
+import (
+	"fmt"
+	"os"
+	"tty/tui/ports"
+	"tty/tui/window"
+
+	tea "github.com/charmbracelet/bubbletea"
+	"github.com/spf13/cobra"
+)
 
 var Cmd = &cobra.Command{
 	Use:     "ls",
@@ -11,5 +19,13 @@ var Cmd = &cobra.Command{
 }
 
 func list(cmd *cobra.Command, args []string) {
-	// TODO: List available serial ports here
+	ports := ports.New()
+	window := window.New(ports).SetName("TTY")
+	program := tea.NewProgram(window)
+
+	_, err := program.Run()
+	if err != nil {
+		fmt.Println("Error running program:", err)
+		os.Exit(1)
+	}
 }
